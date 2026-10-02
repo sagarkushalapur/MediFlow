@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Medical Record &amp; Consultation Desk – MediFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="patient-record">
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon">✚</div>
+      <span>MediFlow</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/doctor-dashboard.html" class="active">Doctor Portal</a></li>
+    </ul>
+    <div id="nav-user-container" class="nav-user"></div>
+  </nav>
+
+  <div class="container" style="max-width: 1140px; padding-top: 1.5rem; padding-bottom: 3rem;">
+    <div id="record-alert"></div>
+
+    <div class="page-header" style="margin-bottom: 1.25rem;">
+      <div class="page-title-group">
+        <a href="/doctor-dashboard.html" style="font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; margin-bottom: 0.4rem; color: var(--primary);">
+          &larr; Back to Doctor Consultation Desk
+        </a>
+        <h1>Patient Clinical Profile &amp; Medical History</h1>
+        <p>Verified through optical MediFlow token scan. Review past treatments and record today's consultation.</p>
+      </div>
+      <div>
+        <a href="#new-consultation-section" class="btn btn-primary btn-lg">
+          ✚ New Consultation
+        </a>
+      </div>
+    </div>
+
+    <!-- Patient Profile Summary Card -->
+    <div class="card" style="border-top: 4px solid var(--primary); background: #ffffff; margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <div class="patient-profile-avatar-box">
+            <img
+              id="patient-profile-photo"
+              class="patient-avatar-img"
+              src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%23e0f2fe'/%3E%3Ccircle cx='64' cy='46' r='22' fill='%230284c7'/%3E%3Cpath d='M26 108 c0-22 17-36 38-36 s38 14 38 36 Z' fill='%230284c7'/%3E%3C/svg%3E"
+              alt="Patient Profile Photo"
+            >
+          </div>
+          <div>
+            <span class="badge badge-primary">Verified Patient Identity</span>
+            <h2 id="patient-name" style="font-size: 1.6rem; margin: 0.2rem 0 0.1rem; color: #0f172a;">Patient Name</h2>
+            <div style="font-family: monospace; font-size: 0.875rem; color: var(--text-muted);">
+              Token: <span id="patient-token" style="color: var(--primary); font-weight: 700;">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.85rem; flex-wrap: wrap;">
+          <div style="text-align: center; background: #fef2f2; border: 1px solid #fecaca; padding: 0.5rem 1.25rem; border-radius: var(--radius-sm);">
+            <div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">BLOOD GROUP</div>
+            <div id="patient-blood" style="font-size: 1.5rem; font-weight: 800; color: #b91c1c;">-</div>
+          </div>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 0.5rem 1.25rem; border-radius: var(--radius-sm); font-size: 0.85rem; line-height: 1.55;">
+            <div><strong>DOB / Age:</strong> <span id="patient-dob">-</span></div>
+            <div><strong>Gender:</strong> <span id="patient-gender">-</span></div>
+            <div><strong>Phone:</strong> <span id="patient-phone">-</span></div>
+            <div><strong>Address:</strong> <span id="patient-address">-</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Critical Allergies & Drug Sensitivities Clinical Section (Doctor can View, Add, Update, and Delete) -->
+      <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border);">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; margin-bottom: 0.85rem;">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;">
+              <strong style="font-size: 1rem; color: #991b1b; text-transform: uppercase; letter-spacing: 0.04em;">
+                ⚠️ Critical Allergies &amp; Drug Sensitivities
+              </strong>
+              <span class="allergy-badge-doctor-mgmt">
+                🛡️ Doctor Managed &bull; Full Clinical Authority
+              </span>
+            </div>
+            <p style="margin: 0.2rem 0 0; font-size: 0.82rem; color: #64748b;">
+              Critical drug contraindications, sensitivities, and allergies. All authenticated doctors can add, update, or delete entries. (Patients have view-only access).
+            </p>
+          </div>
+          <div>
+            <button
+              type="button"
+              id="btn-open-add-allergy"
+              class="btn btn-sm btn-primary"
+              style="background: #dc2626; border-color: #b91c1c; font-weight: 700; display: inline-flex; align-items: center; gap: 0.35rem;"
+            >
+              <span>✚</span> Add Allergy / Sensitivity
+            </button>
+          </div>
+        </div>
+
+        <div id="allergy-section-alert" style="margin-bottom: 0.75rem;"></div>
+
+        <div id="patient-allergies-list">
+          <p class="text-muted" style="font-size: 0.85rem; margin: 0;">Checking allergy &amp; drug sensitivity profile...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent History: Only 2 Recent Consultations + View More Option -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <div class="card-header">
+        <div class="card-title">
+          <span>📜</span> Recent Medical History
+          <span class="recent-history-badge" id="history-view-badge" style="margin-left: 0.5rem;">Showing 2 Most Recent</span>
+        </div>
+        <span style="font-size: 0.85rem; color: var(--text-muted);">
+          Total Visits on Ledger: <strong id="total-history-count">0</strong>
+        </span>
+      </div>
+
+      <!-- Container for Timeline (Displays top 2 by default) -->
+      <div id="recent-history-container">
+        <p>Loading medical history...</p>
+      </div>
+
+      <!-- Collapsible Full History Container -->
+      <div id="full-history-container" style="display: none; margin-top: 1rem;">
+        <!-- Remaining history rendered here -->
+      </div>
+
+      <!-- View More / View All History Button -->
+      <div id="history-expand-wrapper" class="history-expand-wrapper" style="display: none;">
+        <button type="button" id="btn-toggle-all-history" class="btn-view-more-history">
+          <span>📂</span> <span id="btn-toggle-history-text">View More (All Past Consultations)</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Professional New Consultation & Prescription Rx Suite -->
+    <div class="ehr-workbench" id="new-consultation-section">
+      <div class="ehr-header">
+        <div style="display: flex; align-items: center; gap: 0.85rem;">
+          <div class="ehr-rx-badge">℞</div>
+          <div>
+            <h3 style="margin: 0; font-size: 1.25rem; color: #ffffff;">Clinical Consultation &amp; Prescription Order</h3>
+            <div style="font-size: 0.85rem; opacity: 0.9; margin-top: 0.15rem;">
+              Attending Physician: <span class="doctor-name">Dr. Physician</span> &bull; Permanent Medical Ledger
+            </div>
+          </div>
+        </div>
+        <span class="badge" style="background: rgba(255, 255, 255, 0.2); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3);">
+          Immutable Record
+        </span>
+      </div>
+
+      <div style="padding: 1.5rem 1.75rem;">
+        <form id="record-consultation-form">
+          <input type="hidden" id="form-patient-id">
+          <input type="hidden" id="form-patient-token">
+
+          <!-- Clinical Diagnosis with Quick-Select Condition Chips -->
+          <div class="form-group">
+            <label class="form-label" for="form-diagnosis">
+              Clinical Diagnosis / Primary Assessment <span style="color: var(--danger);">*</span>
+            </label>
+            <input
+              type="text"
+              id="form-diagnosis"
+              class="form-control"
+              placeholder="Type or select clinical condition (e.g. Essential Hypertension, Acute Pharyngitis...)"
+              required
+            >
+            <!-- Quick Condition Template Chips -->
+            <div class="template-chips-row">
+              <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center;">Quick Select:</span>
+              <button type="button" class="quick-chip" data-diagnosis="Essential Hypertension (Stage 1)">Hypertension</button>
+              <button type="button" class="quick-chip" data-diagnosis="Acute Viral Pharyngitis">Pharyngitis</button>
+              <button type="button" class="quick-chip" data-diagnosis="Type 2 Diabetes Mellitus Follow-up">Type 2 Diabetes</button>
+              <button type="button" class="quick-chip" data-diagnosis="Acute Gastritis / Acid Reflux">Gastritis</button>
+              <button type="button" class="quick-chip" data-diagnosis="Migraine Cephalea">Migraine</button>
+              <button type="button" class="quick-chip" data-diagnosis="Acute Bronchitis">Bronchitis</button>
+            </div>
+          </div>
+
+          <!-- Patient Vitals Row -->
+          <label class="form-label" style="margin-bottom: 0.4rem;">Patient Vitals &amp; Clinical Indicators</label>
+          <div class="vitals-grid">
+            <div class="vital-input-card">
+              <span class="vital-label">Blood Pressure</span>
+              <input type="text" id="vital-bp" class="vital-input" placeholder="120/80 mmHg">
+            </div>
+            <div class="vital-input-card">
+              <span class="vital-label">Heart Rate</span>
+              <input type="text" id="vital-hr" class="vital-input" placeholder="72 bpm">
+            </div>
+            <div class="vital-input-card">
+              <span class="vital-label">Body Temp</span>
+              <input type="text" id="vital-temp" class="vital-input" placeholder="98.6 °F">
+            </div>
+            <div class="vital-input-card">
+              <span class="vital-label">SpO2 Oxygen</span>
+              <input type="text" id="vital-spo2" class="vital-input" placeholder="98%">
+            </div>
+          </div>
+
+          <!-- Symptoms & Examination Notes -->
+          <div class="form-row">
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label" for="form-symptoms">Reported Symptoms &amp; History of Present Illness</label>
+              <textarea id="form-symptoms" class="form-control" rows="2" placeholder="e.g. Mild headache for 3 days, no fever, occasional dizziness..."></textarea>
+            </div>
+            <div class="form-group" style="flex: 1;">
+              <label class="form-label" for="form-notes">Doctor Clinical Notes &amp; Advice</label>
+              <textarea id="form-notes" class="form-control" rows="2" placeholder="Physical examination findings, lifestyle counseling, follow-up timeline..."></textarea>
+            </div>
+          </div>
+
+          <!-- Attractive Dynamic Prescription Pad -->
+          <div class="prescription-pad">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div>
+                <strong style="font-size: 1rem; color: #0f172a;">💊 Prescribed Medications (Rx)</strong>
+                <div style="font-size: 0.8rem; color: #64748b;">Drugs are automatically verified against patient allergy records.</div>
+              </div>
+              <button type="button" id="btn-add-medicine-row" class="btn btn-secondary btn-sm">
+                ✚ Add Medication
+              </button>
+            </div>
+
+            <!-- Container for Medicine Cards -->
+            <div id="medicines-list-container">
+              <!-- Dynamically populated rows -->
+            </div>
+
+            <!-- Real-time Allergy Cross-Check Alert -->
+            <div id="allergy-crosscheck-warning" style="display: none;" class="allergy-conflict-alert">
+              <span>⚠️</span>
+              <span id="allergy-crosscheck-text">Allergy Conflict Warning!</span>
+            </div>
+          </div>
+
+          <!-- Submission & Permanent Ledger Notice -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+            <div style="font-size: 0.85rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem;">
+              <span>🔒</span>
+              <span>Once signed, this consultation is cryptographically committed to the permanent ledger.</span>
+            </div>
+
+            <div style="display: flex; gap: 0.75rem;">
+              <button type="reset" class="btn btn-outline">Clear Form</button>
+              <button type="submit" id="btn-save-consultation" class="btn btn-primary btn-lg" style="min-width: 260px;">
+                Sign &amp; Record Consultation &rarr;
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Direct Action Modal: Add / Update Critical Allergy & Drug Sensitivity (Doctor Only) -->
+  <div id="allergy-modal" class="action-modal-overlay" style="display: none;">
+    <div class="action-modal-card" style="max-width: 550px;">
+      <div class="action-modal-header" style="background: #fef2f2; border-bottom: 1.5px solid #fecaca;">
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <span style="font-size: 1.3rem;">⚠️</span>
+          <div>
+            <strong id="allergy-modal-title" style="color: #991b1b; font-size: 1.1rem; display: block;">Add Critical Allergy / Sensitivity</strong>
+            <span style="font-size: 0.78rem; color: #b91c1c;">Stored in patient medical database • Managed by attending doctors</span>
+          </div>
+        </div>
+        <button type="button" id="btn-close-allergy-modal" class="action-modal-close-btn" title="Close Modal">✕</button>
+      </div>
+
+      <div class="action-modal-body">
+        <div id="allergy-modal-alert" style="margin-bottom: 0.75rem;"></div>
+        <form id="allergy-form">
+          <input type="hidden" id="allergy-form-id">
+          <input type="hidden" id="allergy-form-patient-id">
+
+          <!-- Allergen / Substance Name -->
+          <div class="form-group">
+            <label class="form-label" for="allergy-form-name" style="font-weight: 700;">Substance / Drug / Allergen Name *</label>
+            <input
+              type="text"
+              id="allergy-form-name"
+              class="form-control"
+              placeholder="e.g. Penicillin, Aspirin / NSAIDs, Sulfa Drugs, Peanuts"
+              required
+            >
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+            <!-- Category -->
+            <div class="form-group">
+              <label class="form-label" for="allergy-form-category" style="font-weight: 700;">Category / Classification *</label>
+              <select id="allergy-form-category" class="form-control" style="font-weight: 600;" required>
+                <option value="Critical Allergy">⚠️ Critical Allergy</option>
+                <option value="Drug Sensitivity">💊 Drug Sensitivity / Intolerance</option>
+                <option value="Serious Drug Reaction">⚡ Serious Drug Reaction</option>
+                <option value="Food / Environmental">🥜 Food / Environmental</option>
+              </select>
+            </div>
+
+            <!-- Severity -->
+            <div class="form-group">
+              <label class="form-label" for="allergy-form-severity" style="font-weight: 700;">Severity Level *</label>
+              <select id="allergy-form-severity" class="form-control" style="font-weight: 600;" required>
+                <option value="Severe">🔴 Severe (Anaphylaxis / Absolute Contraindication)</option>
+                <option value="Moderate" selected>🟠 Moderate (Significant Adverse Reaction)</option>
+                <option value="Mild">🟡 Mild (Rash / Mild Discomfort)</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label class="form-label" for="allergy-form-desc" style="font-weight: 700;">Reaction Symptoms &amp; Contraindications *</label>
+            <textarea
+              id="allergy-form-desc"
+              class="form-control"
+              rows="3"
+              placeholder="Specify past reaction symptoms, trigger mechanism, emergency protocol, and contraindicated drug classes..."
+              required
+            ></textarea>
+          </div>
+
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 0.75rem; font-size: 0.8rem; color: #64748b; margin-bottom: 1.25rem;">
+            🔒 <strong>Doctor Authority Protocol:</strong> Only authenticated doctors can add, update, or delete allergies. Patients have view-only access to protect clinical accuracy.
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 0.65rem;">
+            <button type="button" class="btn btn-outline" id="btn-cancel-allergy-modal">Cancel</button>
+            <button type="submit" id="btn-save-allergy-submit" class="btn btn-primary" style="background: #dc2626; border-color: #b91c1c; font-weight: 700;">
+              💾 Save Allergy Record
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="container">
+      MediFlow – Secure QR-Based Patient Medical History System &bull; Physician Consultation Desk
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/doctor.js"></script>
+</body>
+</html>

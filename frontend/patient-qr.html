@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My MediFlow Code – MediFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="patient-qr">
+
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon">✚</div>
+      <span>MediFlow</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/patient-dashboard.html" class="active">Patient Portal</a></li>
+    </ul>
+    <div id="nav-user-container" class="nav-user"></div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Patient Menu</div>
+      <a href="/patient-dashboard.html">📊 Overview</a>
+      <a href="/medical-history.html">📜 Medical History</a>
+      <a href="/patient-qr.html" class="active">📱 My MediFlow Code</a>
+      <a href="/patient-profile.html">👤 Personal Profile</a>
+    </aside>
+
+    <main class="dashboard-main">
+      <div id="qr-alert"></div>
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>My Unique MediFlow Pass</h1>
+          <p>Present this QR code or secure token to any attending doctor during your consultation.</p>
+        </div>
+        <div>
+          <button id="btn-print-qr" class="btn btn-outline">🖨️ Print Pass</button>
+        </div>
+      </div>
+
+      <div class="card" style="max-width: 600px; margin: 0 auto;">
+        <div class="qr-container">
+          <span class="badge badge-primary" style="margin-bottom: 1rem;">Official MediFlow Identity</span>
+          <h2 class="patient-name" style="margin-bottom: 0.25rem;">Patient Name</h2>
+          <p style="margin-bottom: 1.5rem; font-size: 0.9rem;">Scan below to access verified clinical history</p>
+
+          <div class="qr-box">
+            <img id="qr-image-display" src="" alt="Patient MediFlow Code" style="width: 240px; height: 240px; object-fit: contain;">
+          </div>
+
+          <div style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 0.35rem;">
+            Secure QR Token:
+          </div>
+          <div class="qr-token-pill patient-token">Loading token...</div>
+
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; margin-bottom: 1.5rem;">
+            <button type="button" id="btn-copy-token" class="btn btn-secondary btn-sm">📋 Copy Token</button>
+            <button type="button" id="btn-copy-url" class="btn btn-secondary btn-sm">🔗 Copy Access URL</button>
+          </div>
+
+          <div style="width: 100%; text-align: left; margin-top: 1rem;">
+            <label class="form-label" style="font-size: 0.8rem;">Direct Doctor Access URL</label>
+            <input type="text" id="qr-access-url" class="form-control" readonly style="font-size: 0.85rem; background: #f8fafc;">
+          </div>
+        </div>
+
+        <div class="immutable-notice" style="margin: 1.5rem 0 0;">
+          <span style="font-size: 1.5rem;">🛡️</span>
+          <div>
+            <strong>Zero Medical Data Stored in QR:</strong>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
+              Your medical records are never embedded in the QR image itself. It contains only a secure cryptographic token. An attending doctor must authenticate before records can be retrieved.
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="container">
+      MediFlow – Secure QR-Based Patient Medical History System
+    </div>
+  </footer>
+
+  <script src="/js/vendor/qrcode.min.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/patient.js"></script>
+</body>
+</html>

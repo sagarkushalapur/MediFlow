@@ -1,0 +1,6 @@
+{
+  "name": "MediFlow – Secure Medical Records System",
+  "description": "A secure medical history system enabling doctors to scan patient QR codes to view complete medical history, diagnoses, and prescriptions without modifying previous records.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Doctor Registration – MediFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page" data-page="doctor-register">
+
+  <main class="auth-centered-layout">
+    <!-- MediFlow Logo & Subtitle -->
+    <div class="auth-brand-center">
+      <a href="/index.html" class="auth-logo-badge">
+        <div class="auth-logo-icon">✚</div>
+        <span class="auth-logo-text">MediFlow</span>
+      </a>
+      <p class="auth-subtitle">Secure access to your medical records</p>
+    </div>
+
+    <!-- Registration Card -->
+    <div class="auth-clean-card" style="max-width: 520px;">
+      <div class="auth-card-header">
+        <h1 class="auth-card-title">Doctor Registration</h1>
+        <p class="auth-card-desc">Register as a certified medical practitioner</p>
+      </div>
+
+      <div id="auth-alert"></div>
+
+      <form id="doctor-register-form">
+        <div class="form-group">
+          <label class="auth-label" for="name">Doctor Full Name *</label>
+          <input type="text" id="name" class="auth-input no-toggle" placeholder="e.g. Dr. Sarah Jenkins, M.D." required>
+        </div>
+
+        <div class="form-group">
+          <label class="auth-label" for="email">Professional Email *</label>
+          <input type="email" id="email" class="auth-input no-toggle" placeholder="doctor@hospital.org" required>
+        </div>
+
+        <div class="form-group">
+          <label class="auth-label" for="password">Password *</label>
+          <input type="password" id="password" class="auth-input no-toggle" placeholder="Minimum 6 characters" required>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="auth-label" for="specialization">Specialization *</label>
+            <input type="text" id="specialization" class="auth-input no-toggle" placeholder="e.g. Cardiology" required>
+          </div>
+          <div class="form-group">
+            <label class="auth-label" for="hospitalName">Hospital / Clinic *</label>
+            <input type="text" id="hospitalName" class="auth-input no-toggle" placeholder="e.g. City Health Clinic" required>
+          </div>
+        </div>
+
+        <!-- Profile Photo (Optional) -->
+        <div class="form-group" style="margin-bottom: 1.25rem;">
+          <label class="auth-label" for="reg-doctor-photo-file">Doctor Profile Photo <span style="font-weight: normal; color: var(--text-muted); font-size: 0.82em;">(Optional)</span></label>
+          <div style="display: flex; align-items: center; gap: 1rem; margin-top: 0.35rem; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 0.75rem 1rem;">
+            <div id="reg-doctor-photo-preview-box" style="width: 54px; height: 54px; border-radius: 12px; overflow: hidden; background: #ecfdf5; border: 1px solid #cbd5e1; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+              <img id="reg-doctor-photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%23ecfdf5'/%3E%3Ccircle cx='64' cy='44' r='20' fill='%23059669'/%3E%3Cpath d='M28 108 c0-20 16-34 36-34 s36 14 36 34 Z' fill='%23059669'/%3E%3Cpath d='M64 68 v24 M52 80 h24' stroke='%23ffffff' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" alt="Doctor Avatar Preview" style="width: 100%; height: 100%; object-fit: cover;" />
+            </div>
+            <div style="flex: 1;">
+              <input type="file" id="reg-doctor-photo-file" accept="image/png, image/jpeg, image/webp" class="auth-input" style="padding: 0.4rem 0.6rem; font-size: 0.85rem; background: #ffffff;" />
+              <div class="form-help" style="margin-top: 0.25rem;">Upload practitioner photo or update it anytime from your profile. No random photos are used.</div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-auth-primary" style="margin-top: 1.25rem;">
+          Register as Doctor
+        </button>
+      </form>
+
+      <div class="auth-card-footer">
+        Already registered? <a href="/doctor-login.html">Sign in</a>
+      </div>
+    </div>
+
+    <div class="auth-trust-note">
+      <span>🔒</span>
+      <span>Encrypted Healthcare Record System</span>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+</body>
+</html>

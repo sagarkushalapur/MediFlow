@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Consultation – Doctor Portal – MediFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="add-consultation">
+
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon">✚</div>
+      <span>MediFlow</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/doctor-dashboard.html" class="active">Doctor Portal</a></li>
+    </ul>
+    <div id="nav-user-container" class="nav-user"></div>
+  </nav>
+
+  <div class="container" style="max-width: 900px;">
+    <div id="consultation-alert"></div>
+
+    <div class="page-header">
+      <div class="page-title-group">
+        <a href="javascript:history.back()" style="font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.25rem; margin-bottom: 0.5rem;">
+          &larr; Back to Patient Record
+        </a>
+        <h1>Record New Medical Consultation</h1>
+        <p>Record clinical diagnosis, symptoms, and prescribe medications for this visit.</p>
+      </div>
+    </div>
+
+    <!-- Patient Context Card -->
+    <div class="card" style="background: #f8fafc; border-left: 4px solid var(--primary); margin-bottom: 1.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem;">
+        <div>
+          <span style="font-size: 0.8rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Consultation For Patient</span>
+          <h3 id="patient-context-name" style="margin-top: 0.15rem;">Loading...</h3>
+          <div style="font-family: monospace; font-size: 0.85rem; color: var(--text-muted);">
+            QR Token: <span id="patient-context-token" style="font-weight: 700; color: var(--primary);">-</span>
+          </div>
+        </div>
+        <div>
+          <span class="badge badge-danger" style="font-size: 1rem; padding: 0.4rem 0.85rem;">
+            Blood: <span id="patient-context-blood">-</span>
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Allergy Warning Area -->
+    <div id="consultation-allergies"></div>
+
+    <!-- Consultation Form -->
+    <form id="consultation-form">
+      <input type="hidden" id="hidden-patient-id">
+      <input type="hidden" id="hidden-patient-token">
+
+      <!-- Section 1: Clinical Diagnosis & Observations -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>🩺</span> Clinical Diagnosis &amp; Observations</div>
+          <span class="badge badge-primary">Required</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="diagnosis">Final Clinical Diagnosis *</label>
+          <input type="text" id="diagnosis" class="form-control" placeholder="e.g. Acute Pharyngitis, Type 2 Diabetes Follow-up, Migraine" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="symptoms">Reported Symptoms &amp; Duration</label>
+          <textarea id="symptoms" class="form-control" rows="2" placeholder="e.g. Sore throat, difficulty swallowing for 3 days, mild fever 101F"></textarea>
+        </div>
+
+        <div class="form-group" style="margin-bottom: 0;">
+          <label class="form-label" for="notes">Doctor Clinical Notes &amp; Advice</label>
+          <textarea id="notes" class="form-control" rows="3" placeholder="Clinical findings, examination details, lifestyle instructions, follow-up advice..."></textarea>
+        </div>
+      </div>
+
+      <!-- Section 2: Prescriptions & Medicines -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><span>💊</span> Prescribed Medicines &amp; Dosage</div>
+          <button type="button" id="btn-add-medicine" class="btn btn-secondary btn-sm">
+            ✚ Add Another Medicine
+          </button>
+        </div>
+
+        <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem;">
+          Add medications prescribed during this consultation. Check patient allergy alerts above before adding.
+        </p>
+
+        <!-- Container for dynamic medicine rows -->
+        <div id="medicines-container"></div>
+      </div>
+
+      <!-- Immutability Confirmation Notice -->
+      <div class="immutable-notice">
+        <span style="font-size: 1.5rem;">🔒</span>
+        <div>
+          <strong>Permanent Medical Record Commitment:</strong>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.2rem;">
+            Once submitted, this consultation is stored permanently under your physician credentials and cannot be edited, overwritten, or deleted by any party.
+          </div>
+        </div>
+      </div>
+
+      <div style="display: flex; gap: 1rem; justify-content: flex-end; margin-bottom: 3rem;">
+        <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Cancel</a>
+        <button type="submit" class="btn btn-primary btn-lg" style="min-width: 250px;">
+          Save Consultation Permanently
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <footer>
+    <div class="container">
+      MediFlow – Secure QR-Based Patient Medical History System
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/doctor.js"></script>
+</body>
+</html>

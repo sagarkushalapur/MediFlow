@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Medical History – MediFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="medical-history">
+
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon">✚</div>
+      <span>MediFlow</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/patient-dashboard.html" class="active">Patient Portal</a></li>
+    </ul>
+    <div id="nav-user-container" class="nav-user"></div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Patient Menu</div>
+      <a href="/patient-dashboard.html">📊 Overview</a>
+      <a href="/medical-history.html" class="active">📜 Medical History</a>
+      <a href="/patient-qr.html">📱 My MediFlow Code</a>
+      <a href="/patient-profile.html">👤 Personal Profile</a>
+    </aside>
+
+    <main class="dashboard-main">
+      <div id="patient-alert"></div>
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Permanent Medical History</h1>
+          <p>Chronological record of consultations, diagnoses, and prescriptions by attending doctors.</p>
+        </div>
+        <div>
+          <a href="/patient-qr.html" class="btn btn-outline">📱 Show QR Code</a>
+        </div>
+      </div>
+
+      <div class="immutable-notice">
+        <span style="font-size: 1.5rem;">🔒</span>
+        <div>
+          <strong>Immutable Record Guarantee:</strong>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.15rem;">
+            These records are permanent clinical logs. Neither patients nor doctors can edit or delete previous records. New consultations are appended chronologically.
+          </div>
+        </div>
+      </div>
+
+      <!-- Timeline Container -->
+      <div id="medical-history-container">
+        <p>Loading your medical history...</p>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="container">
+      MediFlow – Secure QR-Based Patient Medical History System
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/patient.js"></script>
+</body>
+</html>

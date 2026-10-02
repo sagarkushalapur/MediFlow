@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saved Patient Data – MediFlow Doctor Portal</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="saved-patients">
+
+  <!-- Navigation Bar: Dedicated Doctor Portal Navigation -->
+  <nav class="navbar">
+    <a href="/doctor-dashboard.html" class="nav-brand">
+      <div class="brand-icon">✚</div>
+      <span>MediFlow Doctor Portal</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/doctor-dashboard.html">Access Patient</a></li>
+      <li><a href="/saved-patients.html" class="active">Saved Patient Data</a></li>
+      <li><a href="/doctor-profile.html">My Profile</a></li>
+    </ul>
+    <div id="nav-user-container" class="nav-user"></div>
+  </nav>
+
+  <div class="container" style="max-width: 1140px; padding-top: 1.75rem; padding-bottom: 3.5rem;">
+    <div id="saved-alert"></div>
+
+    <!-- Page Header & Medical Clarification Notice -->
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+      <div>
+        <h1 style="font-size: 1.6rem; margin: 0; color: #0f172a; display: flex; align-items: center; gap: 0.5rem;">
+          <span>📁</span> Saved Patient Data
+          <span class="badge badge-primary" id="saved-patients-page-count" style="font-size: 0.85rem; padding: 0.25rem 0.65rem;">
+            0 Saved Patients
+          </span>
+        </h1>
+        <p style="margin: 0.35rem 0 0; color: #64748b; font-size: 0.9rem;">
+          Doctor's personal quick-access list for patients saved during clinical visits.
+        </p>
+      </div>
+      <div>
+        <a href="/doctor-dashboard.html" class="btn btn-outline btn-sm" style="font-weight: 600;">
+          &larr; Back to Access Patient
+        </a>
+      </div>
+    </div>
+
+    <!-- Official Clarification Callout -->
+    <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px; padding: 0.85rem 1.25rem; margin-bottom: 1.75rem; display: flex; align-items: flex-start; gap: 0.75rem;">
+      <span style="font-size: 1.25rem;">ℹ️</span>
+      <div style="font-size: 0.85rem; color: #166534; line-height: 1.5;">
+        <strong>Personal Quick-Access List:</strong> Saved Patient Data is NOT the official medical history. It is only your personal saved-patient list for quick future access. Removing a patient from this list will <strong>never</strong> delete or modify any official medical records.
+      </div>
+    </div>
+
+    <!-- Container for Saved Patients Cards -->
+    <div id="saved-patients-list-container">
+      <p class="text-muted" style="padding: 1rem 0;">Loading your saved patient list...</p>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="container">
+      MediFlow – Secure QR-Based Patient Medical History System &bull; Physician Clinical Portal
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/doctor.js"></script>
+</body>
+</html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Patient Profile – MediFlow</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body data-page="patient-profile">
+
+  <nav class="navbar">
+    <a href="/index.html" class="nav-brand">
+      <div class="brand-icon">✚</div>
+      <span>MediFlow</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/index.html">Home</a></li>
+      <li><a href="/patient-dashboard.html" class="active">Patient Portal</a></li>
+    </ul>
+    <div id="nav-user-container" class="nav-user"></div>
+  </nav>
+
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-title">Patient Menu</div>
+      <a href="/patient-dashboard.html">📊 Overview</a>
+      <a href="/medical-history.html">📜 Medical History</a>
+      <a href="/patient-qr.html">📱 My MediFlow Code</a>
+      <a href="/patient-profile.html" class="active">👤 Personal Profile</a>
+    </aside>
+
+    <main class="dashboard-main">
+      <div id="patient-alert"></div>
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Patient Profile &amp; Demographics</h1>
+          <p>Verified identity and clinical identifiers linked to your MediFlow secure token.</p>
+        </div>
+        <div>
+          <a href="/patient-qr.html" class="btn btn-outline">Show QR Code</a>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem;">
+        <!-- Profile Card -->
+        <div class="card">
+          <div class="card-header" style="flex-wrap: wrap; gap: 0.75rem; justify-content: space-between;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <div class="patient-profile-avatar-box" style="position: relative; width: 68px; height: 68px; border-radius: 16px; overflow: hidden; border: 2px solid #e2e8f0; background: #e0f2fe; cursor: pointer; flex-shrink: 0;" id="prof-avatar-trigger" title="Click to update profile photo">
+                <img
+                  id="patient-profile-photo"
+                  class="patient-avatar-img"
+                  style="width: 100%; height: 100%; object-fit: cover;"
+                  src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%23e0f2fe'/%3E%3Ccircle cx='64' cy='46' r='22' fill='%230284c7'/%3E%3Cpath d='M26 108 c0-22 17-36 38-36 s38 14 38 36 Z' fill='%230284c7'/%3E%3C/svg%3E"
+                  alt="Patient Photo"
+                >
+                <span style="position: absolute; bottom: 0; right: 0; left: 0; background: rgba(15, 23, 42, 0.75); color: #ffffff; font-size: 10px; text-align: center; padding: 2px 0; font-weight: 600;">Edit</span>
+              </div>
+              <div>
+                <div class="card-title" style="margin: 0; font-size: 1.2rem;">Personal Information</div>
+                <span class="badge badge-primary">Verified Patient</span>
+              </div>
+            </div>
+            <button type="button" id="btn-open-photo-modal" class="btn btn-outline btn-sm" style="display: inline-flex; align-items: center; gap: 0.35rem; font-weight: 600;">
+              📷 Update Profile Photo
+            </button>
+          </div>
+
+          <table class="table">
+            <tbody>
+              <tr>
+                <td style="width: 35%; font-weight: 600; color: var(--text-muted);">Full Name</td>
+                <td id="prof-name" style="font-weight: 700;">-</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600; color: var(--text-muted);">Email Address</td>
+                <td id="prof-email">-</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600; color: var(--text-muted);">Date of Birth</td>
+                <td id="prof-dob">-</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600; color: var(--text-muted);">Gender</td>
+                <td id="prof-gender">-</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600; color: var(--text-muted);">Blood Group</td>
+                <td><span class="badge badge-secondary" id="prof-blood">Not Specified</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600; color: var(--text-muted);">Phone Number</td>
+                <td id="prof-phone">-</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600; color: var(--text-muted);">Address</td>
+                <td id="prof-address">-</td>
+              </tr>
+              <tr>
+                <td style="font-weight: 600; color: var(--text-muted);">MediFlow Token</td>
+                <td><code id="prof-token" style="font-weight: bold; color: var(--primary);">-</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Allergies Card -->
+        <div class="card">
+          <div class="card-header" style="flex-wrap: wrap; gap: 0.5rem;">
+            <div class="card-title"><span style="color: var(--danger);">⚠️</span> Critical Allergies &amp; Drug Sensitivities</div>
+            <span class="allergy-badge-patient-view">🔒 Doctor Managed &bull; View-Only</span>
+          </div>
+          <p style="font-size: 0.82rem; color: #64748b; margin-bottom: 1rem;">
+            These critical allergies and drug sensitivities are clinically maintained by attending physicians to protect against harmful drug interactions. Patients cannot add, edit, or delete these records.
+          </p>
+
+          <div id="prof-allergies">
+            <p>Loading allergies...</p>
+          </div>
+        </div>
+
+        <!-- Edit Personal & Contact Information Card -->
+        <div class="card" style="grid-column: 1 / -1; margin-top: 0.5rem;">
+          <div class="card-header">
+            <h3 class="card-title" style="font-size: 1.15rem;">Edit Personal &amp; Contact Details</h3>
+          </div>
+          <form id="patient-profile-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label" for="edit-patient-blood">Blood Group</label>
+                <select id="edit-patient-blood" class="form-control">
+                  <option value="Not Specified">Not Specified</option>
+                  <option value="O+">O+</option>
+                  <option value="O-">O-</option>
+                  <option value="A+">A+</option>
+                  <option value="A-">A-</option>
+                  <option value="B+">B+</option>
+                  <option value="B-">B-</option>
+                  <option value="AB+">AB+</option>
+                  <option value="AB-">AB-</option>
+                </select>
+                <span class="form-help">Optionally record or update your blood group.</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="edit-patient-phone">Contact Phone Number</label>
+                <input type="text" id="edit-patient-phone" class="form-control" placeholder="e.g. +1 (555) 234-5678">
+                <span class="form-help">Primary mobile number for medical notifications.</span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="edit-patient-address">Residential Address</label>
+              <input type="text" id="edit-patient-address" class="form-control" placeholder="e.g. 742 Evergreen Terrace, Springfield">
+              <span class="form-help">Primary residential address on file.</span>
+            </div>
+
+            <div style="display: flex; justify-content: flex-end; margin-top: 1rem;">
+              <button type="submit" id="btn-save-patient-profile" class="btn btn-primary" style="min-width: 170px;">
+                Save Profile Updates
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Modal: Update Profile Photo -->
+      <div id="patient-photo-modal" class="action-modal-overlay" style="display: none;">
+        <div class="action-modal-card" style="max-width: 480px;">
+          <div class="action-modal-header">
+            <div style="display: flex; align-items: center; gap: 0.5rem;">
+              <span style="font-size: 1.25rem;">📷</span>
+              <h3 style="margin: 0; font-size: 1.15rem; color: #0f172a; font-weight: 700;">Update Profile Photo</h3>
+            </div>
+            <button type="button" class="action-modal-close-btn" id="btn-close-photo-modal" aria-label="Close">&times;</button>
+          </div>
+          <div class="action-modal-body">
+            <div id="photo-modal-alert"></div>
+
+            <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 1.25rem;">
+              <div style="position: relative; width: 110px; height: 110px; border-radius: 20px; overflow: hidden; border: 3px solid #0284c7; box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2); background: #e0f2fe; margin-bottom: 0.5rem;">
+                <img id="modal-photo-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Crect width='128' height='128' rx='28' fill='%23e0f2fe'/%3E%3Ccircle cx='64' cy='46' r='22' fill='%230284c7'/%3E%3Cpath d='M26 108 c0-22 17-36 38-36 s38 14 38 36 Z' fill='%230284c7'/%3E%3C/svg%3E" alt="Photo Preview" style="width: 100%; height: 100%; object-fit: cover;" />
+              </div>
+              <div style="font-size: 0.85rem; color: var(--text-muted);" id="modal-photo-status">Preview of Selected Photo</div>
+            </div>
+
+            <!-- Option 1: File Upload -->
+            <div style="margin-bottom: 1.1rem;">
+              <label class="form-label" style="font-weight: 600; font-size: 0.88rem; margin-bottom: 0.35rem; display: block;">
+                Upload Image File (JPEG, PNG, WebP)
+              </label>
+              <input type="file" id="modal-photo-file-input" accept="image/png, image/jpeg, image/webp" class="auth-input" style="padding: 0.45rem 0.6rem; font-size: 0.85rem;" />
+              <div class="form-help" style="font-size: 0.78rem; margin-top: 0.25rem;">Your picture is automatically compressed and saved to your personal profile.</div>
+            </div>
+
+            <!-- Option 2: Image URL -->
+            <div style="margin-bottom: 1.1rem;">
+              <label class="form-label" style="font-weight: 600; font-size: 0.88rem; margin-bottom: 0.35rem; display: block;">
+                Or Enter Photo URL
+              </label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="url" id="modal-photo-url-input" class="auth-input" placeholder="https://example.com/photo.jpg" style="flex: 1;" />
+                <button type="button" id="btn-preview-url" class="btn btn-secondary btn-sm">Preview</button>
+              </div>
+            </div>
+
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; margin-top: 1.25rem; padding-top: 1rem; border-top: 1px solid #e2e8f0; flex-wrap: wrap;">
+              <button type="button" id="btn-reset-default-photo" class="btn btn-outline btn-sm" style="color: #64748b; font-size: 0.82rem;">
+                Reset to Default Avatar
+              </button>
+              <div style="display: flex; gap: 0.5rem;">
+                <button type="button" class="btn btn-secondary btn-sm" id="btn-cancel-photo-modal">Cancel</button>
+                <button type="button" class="btn btn-primary btn-sm" id="btn-save-photo" style="font-weight: 700; padding: 0.45rem 1.15rem;">
+                  Save Profile Photo
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <footer>
+    <div class="container">
+      MediFlow – Secure QR-Based Patient Medical History System
+    </div>
+  </footer>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/patient.js"></script>
+</body>
+</html>

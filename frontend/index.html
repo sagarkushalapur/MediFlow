@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MediFlow – Secure Medical Records</title>
+  <meta name="description" content="Secure QR-Based Patient Medical History System. Clean, trusted access for patients and licensed healthcare practitioners.">
+  <meta property="og:title" content="MediFlow – Secure Medical Records">
+  <meta property="og:description" content="Secure QR-Based Patient Medical History System.">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="auth-page" data-page="login">
+
+  <main class="auth-centered-layout">
+    <div class="auth-clean-card">
+
+      <!-- MediFlow Brand Header -->
+      <div class="auth-brand-center">
+        <a href="/index.html" class="auth-logo-badge">
+          <div class="auth-logo-icon">✚</div>
+          <span class="auth-logo-text">MediFlow</span>
+        </a>
+        <p class="auth-subtitle">Secure access to your medical records</p>
+      </div>
+
+      <!-- Segmented Role Selector -->
+      <div class="auth-segmented-control" role="tablist" aria-label="Account Role">
+        <button type="button" class="segmented-btn active" id="tab-patient" role="tab" aria-selected="true">
+          <span>👤</span> Patient
+        </button>
+        <button type="button" class="segmented-btn" id="tab-doctor" role="tab" aria-selected="false">
+          <span>🩺</span> Doctor
+        </button>
+      </div>
+
+      <!-- In-Card Alert Notification -->
+      <div id="auth-alert"></div>
+
+      <!-- Authentication Form -->
+      <form id="login-form" data-expected-role="ROLE_PATIENT" novalidate>
+        <div class="auth-input-group">
+          <label class="auth-label" for="email">Email address</label>
+          <div class="auth-input-wrapper">
+            <span class="auth-input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+            </span>
+            <input
+              type="email"
+              id="email"
+              class="auth-input"
+              placeholder="patient@example.com"
+              required
+              autocomplete="email"
+            >
+          </div>
+        </div>
+
+        <div class="auth-input-group">
+          <label class="auth-label" for="password">Password</label>
+          <div class="auth-input-wrapper">
+            <span class="auth-input-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </span>
+            <input
+              type="password"
+              id="password"
+              class="auth-input has-toggle"
+              placeholder="••••••••"
+              required
+              autocomplete="current-password"
+            >
+            <button
+              type="button"
+              id="btn-toggle-password"
+              class="auth-input-toggle"
+              aria-label="Toggle password visibility"
+              title="Toggle password visibility"
+            >
+              <svg id="eye-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-extra-row">
+          <a href="javascript:void(0)" class="auth-forgot-link" id="link-forgot-password">
+            Forgot password?
+          </a>
+        </div>
+
+        <button type="submit" class="btn-auth-primary" id="btn-login-submit">
+          Sign In as Patient
+        </button>
+      </form>
+
+      <!-- Registration Prompt -->
+      <div class="auth-card-footer">
+        Don't have an account?
+        <a id="register-link" href="/patient-register.html">Register as Patient</a>
+      </div>
+
+    </div>
+
+    <div class="auth-bottom-trust">
+      <span>🔒</span>
+      <span>256-bit Encrypted Medical Records &bull; HIPAA Compliant</span>
+    </div>
+  </main>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const tabPatient = document.getElementById('tab-patient');
+      const tabDoctor = document.getElementById('tab-doctor');
+      const loginForm = document.getElementById('login-form');
+      const submitBtn = document.getElementById('btn-login-submit');
+      const registerLink = document.getElementById('register-link');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const togglePasswordBtn = document.getElementById('btn-toggle-password');
+      const eyeIcon = document.getElementById('eye-icon');
+      const forgotLink = document.getElementById('link-forgot-password');
+
+      function setRole(role) {
+        clearAlert('auth-alert');
+        if (role === 'ROLE_DOCTOR') {
+          tabPatient.classList.remove('active');
+          tabPatient.setAttribute('aria-selected', 'false');
+          tabDoctor.classList.add('active');
+          tabDoctor.setAttribute('aria-selected', 'true');
+
+          loginForm.setAttribute('data-expected-role', 'ROLE_DOCTOR');
+          emailInput.placeholder = 'doctor@hospital.org';
+          submitBtn.textContent = 'Sign In as Doctor';
+          registerLink.textContent = 'Register as Doctor';
+          registerLink.href = '/doctor-register.html';
+          document.title = 'Doctor Login – MediFlow';
+        } else {
+          tabDoctor.classList.remove('active');
+          tabDoctor.setAttribute('aria-selected', 'false');
+          tabPatient.classList.add('active');
+          tabPatient.setAttribute('aria-selected', 'true');
+
+          loginForm.setAttribute('data-expected-role', 'ROLE_PATIENT');
+          emailInput.placeholder = 'patient@example.com';
+          submitBtn.textContent = 'Sign In as Patient';
+          registerLink.textContent = 'Register as Patient';
+          registerLink.href = '/patient-register.html';
+          document.title = 'Patient Login – MediFlow';
+        }
+      }
+
+      tabPatient.addEventListener('click', () => setRole('ROLE_PATIENT'));
+      tabDoctor.addEventListener('click', () => setRole('ROLE_DOCTOR'));
+
+      // Read query params (e.g. ?role=doctor)
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('role') === 'doctor') {
+        setRole('ROLE_DOCTOR');
+      }
+
+      // Password Toggle
+      if (togglePasswordBtn && passwordInput) {
+        togglePasswordBtn.addEventListener('click', () => {
+          const isPassword = passwordInput.type === 'password';
+          passwordInput.type = isPassword ? 'text' : 'password';
+          if (isPassword) {
+            eyeIcon.innerHTML = `
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+            `;
+          } else {
+            eyeIcon.innerHTML = `
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            `;
+          }
+        });
+      }
+
+      // In-Card Forgot Password Notice
+      if (forgotLink) {
+        forgotLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          showAlert('auth-alert', 'Password reset instructions have been dispatched to your email address.', 'info');
+        });
+      }
+    });
+  </script>
+</body>
+</html>
